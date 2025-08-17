@@ -1,5 +1,5 @@
 import { cn } from '../lib/utils'
-import  useTodos  from '../lib/store'
+import useTodos from '../lib/store'
 import { motion } from 'framer-motion'
 import { Trash2, Check, X } from 'lucide-react'
 
