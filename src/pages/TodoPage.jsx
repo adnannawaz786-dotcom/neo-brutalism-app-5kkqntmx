@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import TodoList from '../components/TodoList';
 import NewTodoForm from '../components/ui/NewTodoForm';
-import { useTodos } from '../lib/store';
+import useTodos from '../lib/store';
 
 const TodoPage = () => {
   const { todos } = useTodos();
