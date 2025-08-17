@@ -4,104 +4,71 @@ import { persist } from 'zustand/middleware'
 const useStore = create(
   persist(
     (set, get) => ({
-      // Todo state
       todos: [],
-      filter: 'all', // 'all', 'active', 'completed'
-      
-      // Todo actions
-      addTodo: (text) => {
+      filter: 'all',
+
+      addTodo: ({ title, description = "", priority = "medium", completed = false, createdAt }) => {
         const newTodo = {
           id: Date.now().toString(),
-          text: text.trim(),
-          completed: false,
-          createdAt: new Date().toISOString(),
+          title: title.trim(),
+          description: description.trim(),
+          priority,
+          completed,
+          createdAt: createdAt || new Date().toISOString(),
         }
+        set((state) => ({ todos: [...state.todos, newTodo] }))
+      },
+
+      toggleTodo: (id) =>
         set((state) => ({
-          todos: [...state.todos, newTodo]
+          todos: state.todos.map((t) =>
+            t.id === id ? { ...t, completed: !t.completed } : t
+          ),
+        })),
+
+      deleteTodo: (id) =>
+        set((state) => ({ todos: state.todos.filter((t) => t.id !== id) })),
+
+      editTodo: (id, newTitle) => {
+        if (!newTitle.trim()) return
+        set((state) => ({
+          todos: state.todos.map((t) =>
+            t.id === id ? { ...t, title: newTitle.trim() } : t
+          ),
         }))
       },
 
-      toggleTodo: (id) => {
-        set((state) => ({
-          todos: state.todos.map((todo) =>
-            todo.id === id ? { ...todo, completed: !todo.completed } : todo
-          )
-        }))
-      },
+      clearCompleted: () =>
+        set((state) => ({ todos: state.todos.filter((t) => !t.completed) })),
 
-      deleteTodo: (id) => {
-        set((state) => ({
-          todos: state.todos.filter((todo) => todo.id !== id)
-        }))
-      },
+      setFilter: (filter) => set({ filter }),
 
-      editTodo: (id, newText) => {
-        if (!newText.trim()) return
-        set((state) => ({
-          todos: state.todos.map((todo) =>
-            todo.id === id ? { ...todo, text: newText.trim() } : todo
-          )
-        }))
-      },
-
-      clearCompleted: () => {
-        set((state) => ({
-          todos: state.todos.filter((todo) => !todo.completed)
-        }))
-      },
-
-      setFilter: (filter) => {
-        set({ filter })
-      },
-
-      // Computed values
       getFilteredTodos: () => {
         const { todos, filter } = get()
-        switch (filter) {
-          case 'active':
-            return todos.filter((todo) => !todo.completed)
-          case 'completed':
-            return todos.filter((todo) => todo.completed)
-          default:
-            return todos
-        }
+        if (filter === 'active') return todos.filter((t) => !t.completed)
+        if (filter === 'completed') return todos.filter((t) => t.completed)
+        return todos
       },
 
-      getActiveTodosCount: () => {
-        const { todos } = get()
-        return todos.filter((todo) => !todo.completed).length
-      },
+      getActiveTodosCount: () => get().todos.filter((t) => !t.completed).length,
+      getCompletedTodosCount: () => get().todos.filter((t) => t.completed).length,
 
-      getCompletedTodosCount: () => {
-        const { todos } = get()
-        return todos.filter((todo) => todo.completed).length
-      },
-
-      // UI state
       darkMode: true,
-      toggleDarkMode: () => {
-        set((state) => ({ darkMode: !state.darkMode }))
-      },
+      toggleDarkMode: () => set((s) => ({ darkMode: !s.darkMode })),
 
-      // Animation state
       isAnimating: false,
-      setIsAnimating: (isAnimating) => {
-        set({ isAnimating })
-      },
+      setIsAnimating: (isAnimating) => set({ isAnimating }),
 
-      // Sound effects toggle
       soundEnabled: true,
-      toggleSound: () => {
-        set((state) => ({ soundEnabled: !state.soundEnabled }))
-      },
+      toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
     }),
     {
       name: 'neo-brutalism-todo-storage',
-      partialize: (state) => ({
-        todos: state.todos,
-        filter: state.filter,
-        darkMode: state.darkMode,
-        soundEnabled: state.soundEnabled,
+      partialize: (s) => ({
+        todos: s.todos,
+        filter: s.filter,
+        darkMode: s.darkMode,
+        soundEnabled: s.soundEnabled,
       }),
     }
   )
