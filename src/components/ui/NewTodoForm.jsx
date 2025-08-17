@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTodos } from '../../lib/store'
+import useTodos from '../../lib/store'
 import { cn } from '../../lib/utils'
 import { Plus, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
