@@ -1,0 +1,251 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-gray-950 text-gray-100 font-mono;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    --background: 9 9 11;
+    --foreground: 250 250 250;
+    --card: 24 24 27;
+    --card-foreground: 250 250 250;
+    --popover: 24 24 27;
+    --popover-foreground: 250 250 250;
+    --primary: 250 250 250;
+    --primary-foreground: 9 9 11;
+    --secondary: 39 39 42;
+    --secondary-foreground: 250 250 250;
+    --muted: 39 39 42;
+    --muted-foreground: 161 161 170;
+    --accent: 39 39 42;
+    --accent-foreground: 250 250 250;
+    --destructive: 239 68 68;
+    --destructive-foreground: 250 250 250;
+    --border: 39 39 42;
+    --input: 39 39 42;
+    --ring: 250 250 250;
+    --radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .neo-brutal-shadow {
+    box-shadow: 4px 4px 0px theme('colors.yellow.400');
+    transition: all 0.1s ease;
+  }
+
+  .neo-brutal-shadow:hover {
+    box-shadow: 6px 6px 0px theme('colors.yellow.400');
+    transform: translate(-2px, -2px);
+  }
+
+  .neo-brutal-shadow:active {
+    box-shadow: 2px 2px 0px theme('colors.yellow.400');
+    transform: translate(2px, 2px);
+  }
+
+  .neo-brutal-border {
+    border: 3px solid theme('colors.gray.100');
+  }
+
+  .neo-brutal-card {
+    @apply neo-brutal-border neo-brutal-shadow bg-gray-900 p-6 rounded-none;
+  }
+
+  .neo-brutal-button {
+    @apply neo-brutal-border neo-brutal-shadow bg-gray-800 hover:bg-gray-700 text-gray-100 font-bold py-3 px-6 rounded-none uppercase tracking-wider transition-all duration-100;
+  }
+
+  .neo-brutal-input {
+    @apply neo-brutal-border bg-gray-800 text-gray-100 p-4 rounded-none focus:outline-none focus:ring-0 focus:border-yellow-400;
+  }
+
+  .neo-brutal-checkbox {
+    @apply appearance-none w-6 h-6 border-3 border-gray-100 bg-gray-800 checked:bg-yellow-400 checked:border-yellow-400 relative rounded-none;
+  }
+
+  .neo-brutal-checkbox:checked::after {
+    content: '✓';
+    @apply absolute inset-0 flex items-center justify-center text-gray-900 font-bold text-sm;
+  }
+
+  .task-complete {
+    @apply line-through opacity-60;
+  }
+
+  .gradient-text {
+    background: linear-gradient(45deg, theme('colors.yellow.400'), theme('colors.pink.500'), theme('colors.cyan.400'));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-effect {
+    filter: drop-shadow(0 0 10px theme('colors.yellow.400'));
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulse-glow {
+    from {
+      filter: drop-shadow(0 0 5px theme('colors.yellow.400'));
+    }
+    to {
+      filter: drop-shadow(0 0 20px theme('colors.yellow.400'));
+    }
+  }
+
+  .slide-in {
+    animation: slide-in 0.3s ease-out;
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .priority-high {
+    border-left: 6px solid theme('colors.red.500');
+  }
+
+  .priority-medium {
+    border-left: 6px solid theme('colors.yellow.500');
+  }
+
+  .priority-low {
+    border-left: 6px solid theme('colors.green.500');
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: theme('colors.gray.800');
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: theme('colors.yellow.400');
+    border-radius: 0;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.yellow.300');
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-noise {
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  .clip-path-brutal {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid theme('colors.yellow.400');
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background: theme('colors.yellow.400');
+  color: theme('colors.gray.900');
+}
+
+::-moz-selection {
+  background: theme('colors.yellow.400');
+  color: theme('colors.gray.900');
+}
+
+/* Disable smooth scrolling for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .neo-brutal-shadow {
+    box-shadow: 4px 4px 0px theme('colors.white');
+  }
+  
+  .neo-brutal-border {
+    border-color: theme('colors.white');
+  }
+}
+
+/* Print styles */
+@media print {
+  .neo-brutal-shadow {
+    box-shadow: none;
+  }
+  
+  .neo-brutal-card,
+  .neo-brutal-button,
+  .neo-brutal-input {
+    border: 1px solid black;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+}
