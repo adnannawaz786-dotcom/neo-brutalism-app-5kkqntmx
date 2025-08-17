@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TodoItem from './TodoItem';
-import  useTodos  from '../lib/store';
+import useTodos from '../lib/store';
 
 const TodoList = () => {
   const { todos, filter } = useTodos();
